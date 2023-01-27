@@ -1,7 +1,7 @@
 import { User, UserCredentials } from '../types'
 import { getSignedUpUser } from './localStorage'
 
-const getSignedInUserInSessionStorage = (): User | undefined => {
+export const getSignedInUserInSessionStorage = (): User | undefined => {
   const allSignedUpUsersStr = sessionStorage.getItem('currentSignedInUser') ?? ''
   return allSignedUpUsersStr ? JSON.parse(allSignedUpUsersStr) : undefined
 }

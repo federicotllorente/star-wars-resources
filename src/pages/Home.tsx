@@ -1,12 +1,7 @@
-const LoggedInHome = () => {
-  return <div>LoggedInHome</div>
-}
-
-const NotLoggedInHome = () => {
-  return <div>NotLoggedInHome</div>
-}
+import { getSignedInUserInSessionStorage } from '../helpers'
 
 export const Home = () => {
-  const isLoggedIn = false
-  return isLoggedIn ? <LoggedInHome /> : <NotLoggedInHome />
+  const signedInUser = getSignedInUserInSessionStorage()
+
+  return <div>Home</div>
 }

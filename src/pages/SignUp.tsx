@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import {
   Container,
   Typography,
@@ -9,10 +10,31 @@ import {
   Grid,
   Link
 } from '@mui/material'
+import { addSignedUpUser } from '../helpers'
+import { User } from '../types'
 
 export const SignUp = () => {
-  // TODO
-  const handleSubmit = () => alert('Hello')
+  const navigate = useNavigate()
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault()
+
+    const data = new FormData(e.currentTarget)
+    const submittedUserData = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      email: data.get('email'),
+      password: data.get('password')
+    }
+
+    if (!submittedUserData.email || !submittedUserData.password || !submittedUserData.firstName) {
+      alert('Please fill all the required fields to sign up')
+      return
+    }
+
+    addSignedUpUser(submittedUserData as User)
+    navigate('/')
+  }
 
   return (
     <section>
@@ -43,7 +65,6 @@ export const SignUp = () => {
           />
           <TextField
             margin="normal"
-            required
             fullWidth
             id="lastName"
             label="Last Name"
@@ -92,7 +113,7 @@ export const SignUp = () => {
               alignItems: 'center',
             }}
           >
-            <Link href="#" variant="body2">
+            <Link href="sign-in" variant="body2">
               Already have an account? Sign in
             </Link>
           </Box>

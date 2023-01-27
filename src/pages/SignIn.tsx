@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import {
   Container,
   Typography,
@@ -9,10 +10,35 @@ import {
   Grid,
   Link
 } from '@mui/material'
+import { getSignedUpUser, setSignedInUser } from '../helpers'
+import { UserCredentials } from '../types'
 
 export const SignIn = () => {
-  // TODO
-  const handleSubmit = () => alert('Hello')
+  const navigate = useNavigate()
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault()
+
+    const data = new FormData(e.currentTarget)
+    const submittedCredentials = {
+      email: data.get('email'),
+      password: data.get('password')
+    }
+
+    if (!submittedCredentials.email || !submittedCredentials.password) {
+      alert('Please fill all the required fields to sign in')
+      return
+    }
+
+    const existentUser = getSignedUpUser(submittedCredentials as UserCredentials)
+    if (!existentUser) {
+      alert('The credentials you entered are not valid. Please retry or create a new account')
+      return
+    }
+
+    setSignedInUser(submittedCredentials as UserCredentials)
+    navigate('/')
+  }
 
   return (
     <section>
@@ -22,7 +48,7 @@ export const SignIn = () => {
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: 'center'
           }}
         >
           <Typography component="h1" variant="h5">
@@ -63,18 +89,17 @@ export const SignIn = () => {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {'Don\'t have an account? Sign Up'}
-              </Link>
-            </Grid>
-          </Grid>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Link href="sign-up" variant="body2">
+              {'Don\'t have an account? Sign Up'}
+            </Link>
+          </Box>
         </Box>
       </Container>
     </section>
