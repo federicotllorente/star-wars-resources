@@ -20,12 +20,12 @@ import {
   ChevronLeft as ChevronLeftIcon,
 } from '@mui/icons-material'
 
-import { AppBarProps } from '../types'
+import { AppBarProps, ResourceTypeList } from '../types'
 import { getResourceTypeList } from '../helpers'
 
 export const BurgerMenu = () => {
   const isTabletOrLarger = useMediaQuery('(min-width:768px)')
-  const [resources, setResources] = useState(null)
+  const [resources, setResources] = useState<ResourceTypeList | null | undefined>(null) // TODO Remove undefined
   const [open, setOpen] = useState(isTabletOrLarger)
   const toggleDrawer = () => setOpen(v => !v)
   const navigate = useNavigate()

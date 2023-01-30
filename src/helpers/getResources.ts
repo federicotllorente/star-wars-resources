@@ -1,5 +1,21 @@
-export const getResourceTypeList = async () => {
+import { ResourceList, ResourceTypeList } from '../types'
+
+export const getResourceTypeList = async (): Promise<
+  ResourceTypeList | undefined
+> => {
   const res = await fetch('https://swapi.dev/api/')
+  try {
+    const data: ResourceTypeList = await res.json()
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const getResourceList = async (
+  resourceType: string
+): Promise<ResourceList | undefined> => {
+  const res = await fetch(`https://swapi.dev/api/${resourceType}/`)
   try {
     const data = await res.json()
     return data
@@ -8,10 +24,12 @@ export const getResourceTypeList = async () => {
   }
 }
 
-export const getResourceList = async (resourceType: string) => {
-  const res = await fetch(`https://swapi.dev/api/${resourceType}/`)
+export const getResourceListFromCustomUrl = async (
+  url: string
+): Promise<ResourceList | undefined> => {
+  const res = await fetch(url)
   try {
-    const data = await res.json()
+    const data: ResourceList = await res.json()
     return data
   } catch (err) {
     console.error(err)

@@ -22,6 +22,7 @@ export const Layout: FunctionComponent<{
         <Box
           sx={{
             marginTop: isTabletOrLarger ? 12 : 10,
+            marginBottom: 4,
             display: 'flex',
             flexDirection: 'column'
           }}

@@ -27,9 +27,8 @@ function App() {
         const signedInUser = getSignedInUserInSessionStorage()
         if (!signedInUser) throw redirect('/sign-in')
         
-        const resources: ResourceTypeList = await getResourceTypeList()
-        console.log('resources', resources)
-        return { resources: Object.keys(resources) }
+        const resources = await getResourceTypeList()
+        return { resources: resources ? Object.keys(resources) : [] }
       }
     },
     {
@@ -39,7 +38,7 @@ function App() {
       loader: async ({ params }) => {
         if (!params.resourceId) throw new Error
         
-        const resources: ResourceList = await getResourceList(params.resourceId)
+        const resources = await getResourceList(params.resourceId)
         if (!resources) throw new Error
         
         return { ...resources, resourceId: params.resourceId }
