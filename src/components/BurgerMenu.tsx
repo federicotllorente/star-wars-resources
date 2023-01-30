@@ -38,7 +38,7 @@ export const BurgerMenu = () => {
     getResourceTypeList().then(data => setResources(data)) // TODO Pass as props (use from loader function)
   }, [])
 
-  const drawerWidth = 180
+  const drawerWidth = isTabletOrLarger ? '180px' : '100vw'
 
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
@@ -48,8 +48,8 @@ export const BurgerMenu = () => {
       duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: `${drawerWidth}px`,
+      width: `calc(100% - ${drawerWidth})`,
+      marginLeft: `${drawerWidth}`,
       transition: theme.transitions.create(['margin', 'width'], {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
