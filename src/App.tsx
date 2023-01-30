@@ -4,12 +4,11 @@ import {
   redirect,
 } from 'react-router-dom'
 
-import { getResourceList, getResourceTypeList, getSignedInUserInSessionStorage } from './helpers'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
 import { Home } from './pages/Home'
 import { ResourceOverview } from './pages/ResourceOverview'
-import { ResourceList, ResourceTypeList } from './types'
+import { getResourceList, getResourceTypeList, getSignedInUserInSessionStorage } from './helpers'
 
 const defaultLoader = async () => {
   const signedInUser = getSignedInUserInSessionStorage()

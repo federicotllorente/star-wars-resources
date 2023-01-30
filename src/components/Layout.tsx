@@ -12,6 +12,7 @@ export const Layout: FunctionComponent<{
 }> = ({
   children
 }) => {
+  const isMobileOrLarger = useMediaQuery('(min-width:425px)')
   const isTabletOrLarger = useMediaQuery('(min-width:768px)')
 
   return (
@@ -21,7 +22,7 @@ export const Layout: FunctionComponent<{
       <Container component="main">
         <Box
           sx={{
-            marginTop: isTabletOrLarger ? 12 : 10,
+            marginTop: !isMobileOrLarger ? 16 : isTabletOrLarger ? 12 : 10,
             marginBottom: 4,
             display: 'flex',
             flexDirection: 'column'
