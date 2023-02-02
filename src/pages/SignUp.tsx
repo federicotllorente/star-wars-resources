@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useNavigation } from 'react-router-dom'
 import {
   Container,
   Typography,
@@ -7,15 +7,18 @@ import {
   Button,
   Link
 } from '@mui/material'
+
 import { addSignedUpUser } from '../helpers'
 import { User } from '../types'
+import { NavigationLoader } from '../components/NavigationLoader'
 
 export const SignUp = () => {
+  const { state: navigationState } = useNavigation()
   const navigate = useNavigate()
-
+  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-
+    
     const data = new FormData(e.currentTarget)
     const submittedUserData = {
       firstName: data.get('firstName'),
@@ -23,16 +26,17 @@ export const SignUp = () => {
       email: data.get('email'),
       password: data.get('password')
     }
-
+    
     if (!submittedUserData.email || !submittedUserData.password || !submittedUserData.firstName) {
       alert('Please fill all the required fields to sign up')
       return
     }
-
+    
     addSignedUpUser(submittedUserData as User)
     navigate('/')
   }
-
+  
+  if (navigationState === 'loading') return <NavigationLoader />
   return (
     <Container component="main" maxWidth="xs">
       <Box

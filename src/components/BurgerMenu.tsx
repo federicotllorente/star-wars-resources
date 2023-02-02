@@ -15,7 +15,8 @@ import {
   ListItemButton,
   ListItemText,
   useMediaQuery,
-  InputBase
+  InputBase,
+  CircularProgress
 } from '@mui/material'
 import {
   Menu as MenuIcon,
@@ -32,12 +33,17 @@ export const BurgerMenu = () => {
   const isTabletOrLarger = useMediaQuery('(min-width:768px)')
 
   const [resources, setResources] = useState<ResourceTypeList | null | undefined>(null) // TODO Remove undefined
+  const [resourcesAreLoading, setResourcesAreLoading] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(isTabletOrLarger)
 
   const toggleDrawer = () => setOpen(v => !v)
 
   useEffect(() => {
-    getResourceTypeList().then(data => setResources(data)) // TODO Pass as props (use from loader function)
+    setResourcesAreLoading(true)
+    getResourceTypeList().then(data => {
+      setResources(data)
+      setResourcesAreLoading(false)
+    }) // TODO Pass as props (use from loader function)
   }, [])
 
   const drawerWidth = isTabletOrLarger ? '180px' : '100vw'
@@ -119,6 +125,7 @@ export const BurgerMenu = () => {
     navigate(`/search/${encodeURI((searchInputRef.current as any)?.children[0].value)}`)
   }
 
+  if (resourcesAreLoading) return <CircularProgress />
   if (!resources) return null
   return (
     <>

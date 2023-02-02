@@ -1,12 +1,15 @@
 import { useCallback, useMemo } from 'react'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useNavigation } from 'react-router-dom'
 import { Box, Typography, Grid, useMediaQuery } from '@mui/material'
+
 import { Resource } from '../types'
 import { Layout } from '../components/Layout'
 import { LinkForUrlResourceItem } from '../components/LinkForUrlResourceItem'
 import { CardForUrlArrayResourceItems } from '../components/CardForUrlArrayResourceItems'
+import { NavigationLoader } from '../components/NavigationLoader'
 
 export const ResourceDetails = () => {
+  const { state: navigationState } = useNavigation()
   const resource = useLoaderData() as Resource
 
   const isMobileOrLarger = useMediaQuery('(min-width:425px)')
@@ -30,6 +33,8 @@ export const ResourceDetails = () => {
     isKeyToIgnore(key) && !Array.isArray(resource[key]) && !`${resource[key]}`.startsWith('https://')
   ), [resource])
 
+  if (navigationState === 'loading') return <NavigationLoader />
+  if (!resource) return null
   return (
     <Layout>
       <Box>
@@ -42,7 +47,9 @@ export const ResourceDetails = () => {
           <p key={key}>
             <strong>{`${key.charAt(0).toUpperCase()}${key.slice(1).split('_').join(' ')}`}:</strong>
             {' '}
-            <span>{`${(resource[key] as string).charAt(0).toUpperCase()}${(resource[key] as string).slice(1)}`}</span>
+            {resource[key] && (
+              <span>{`${`${resource[key]}`.charAt(0).toUpperCase()}${`${resource[key]}`.slice(1)}`}</span>
+            )}
           </p>
         ))}
         {urlResourceItems.length > 0 && urlResourceItems.map(key => (

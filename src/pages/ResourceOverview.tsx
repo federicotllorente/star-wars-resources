@@ -1,12 +1,16 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useLoaderData } from 'react-router-dom'
+import { useLoaderData, useNavigation } from 'react-router-dom'
 import { Button } from '@mui/material'
+
 import { Resource, ResourceList } from '../types'
 import { getResourcesFromCustomUrl } from '../helpers'
+
 import { Layout } from '../components/Layout'
 import { ResourceCardGrid } from '../components/ResourceCardGrid'
+import { NavigationLoader } from '../components/NavigationLoader'
 
 export const ResourceOverview = () => {
+  const { state: navigationState } = useNavigation()
   const resourceList = useLoaderData() as ResourceList & { searchInput?: string }
 
   const [isNextPageAvailable, setIsNextPageAvailable] = useState<boolean>(false)
@@ -54,6 +58,7 @@ export const ResourceOverview = () => {
     setNextPageUrl(results.next)
   }
 
+  if (navigationState === 'loading') return <NavigationLoader />
   if (!resourceList) return null
   return (
     <Layout>

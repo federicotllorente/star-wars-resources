@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useNavigation } from 'react-router-dom'
 import {
   Container,
   Typography,
@@ -7,36 +7,40 @@ import {
   Button,
   Link
 } from '@mui/material'
+
 import { getSignedUpUser, setSignedInUser } from '../helpers'
 import { UserCredentials } from '../types'
+import { NavigationLoader } from '../components/NavigationLoader'
 
 export const SignIn = () => {
+  const { state: navigationState } = useNavigation()
   const navigate = useNavigate()
-
+  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-
+    
     const data = new FormData(e.currentTarget)
     const submittedCredentials = {
       email: data.get('email'),
       password: data.get('password')
     }
-
+    
     if (!submittedCredentials.email || !submittedCredentials.password) {
       alert('Please fill all the required fields to sign in')
       return
     }
-
+    
     const existentUser = getSignedUpUser(submittedCredentials as UserCredentials)
     if (!existentUser) {
       alert('The credentials you entered are not valid. Please retry or create a new account')
       return
     }
-
+    
     setSignedInUser(submittedCredentials as UserCredentials)
     navigate('/')
   }
-
+  
+  if (navigationState === 'loading') return <NavigationLoader />
   return (
     <Container component="main" maxWidth="xs">
       <Box

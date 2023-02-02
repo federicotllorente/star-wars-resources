@@ -1,8 +1,10 @@
-import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useLoaderData, useNavigate, useNavigation } from 'react-router-dom'
 import { Box, Button, Divider } from '@mui/material'
+
 import { ResourceSearchList } from '../types'
 import { Layout } from '../components/Layout'
 import { ResourceCardGrid } from '../components/ResourceCardGrid'
+import { NavigationLoader } from '../components/NavigationLoader'
 
 export const ResourceSearchOverview = () => {
   const {
@@ -13,8 +15,10 @@ export const ResourceSearchOverview = () => {
     searchInput: string
   }
 
+  const { state: navigationState } = useNavigation()
   const navigate = useNavigate()
 
+  if (navigationState === 'loading') return <NavigationLoader />
   if (!resourceSearchList) return null
   return (
     <Layout>
