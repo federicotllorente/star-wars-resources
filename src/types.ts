@@ -28,6 +28,6 @@ export type ResourceList = {
   count: number
   next: string | null
   previous: string | null
-  resourceId: string
+  resourceType: string
   results: Resource[]
 }

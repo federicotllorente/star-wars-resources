@@ -34,16 +34,16 @@ function App() {
       }
     },
     {
-      path: 'resources/:resourceId',
+      path: 'resources/:resourceType',
       element: <ResourceOverview />,
       errorElement: <div>Error 404</div>,
       loader: async ({ params }) => {
-        if (!params.resourceId) throw new Error
+        if (!params.resourceType) throw new Error
         
-        const resources = await getResourceList(params.resourceId)
+        const resources = await getResourceList(params.resourceType)
         if (!resources) throw new Error
         
-        return { ...resources, resourceId: params.resourceId }
+        return { ...resources, resourceType: params.resourceType }
       }
     },
     {
@@ -67,20 +67,20 @@ function App() {
           }
         }
 
-        return { ...totalResources, searchInput: params.searchInput }
+        return { resources: totalResources, searchInput: params.searchInput }
       }
     },
     {
-      path: 'search/:resourceId/:searchInput',
+      path: 'search/:resourceType/:searchInput',
       element: <ResourceOverview />,
       errorElement: <div>Error 404</div>,
       loader: async ({ params }) => {
-        if (!params.resourceId || !params.searchInput) throw new Error
+        if (!params.resourceType || !params.searchInput) throw new Error
         
-        const resources = await searchResource(params.resourceId, params.searchInput ?? '')
+        const resources = await searchResource(params.resourceType, params.searchInput ?? '')
         if (!resources) throw new Error
 
-        return { ...resources, resourceId: params.resourceId, searchInput: params.searchInput }
+        return { ...resources, resourceType: params.resourceType, searchInput: params.searchInput }
       }
     },
     {

@@ -14,9 +14,9 @@ export const ResourceOverview = () => {
   const [isNextPageLoading, setIsNextPageLoading] = useState<boolean>(false)
   const [acumulatedResourceList, setAcumulatedResourceList] = useState<Resource[]>([])
 
-  const resourceIdWithInitialInUpperCase = useMemo(
-    () => `${resourceList.resourceId.charAt(0).toUpperCase()}${resourceList.resourceId.slice(1)}`,
-    [resourceList.resourceId]
+  const resourceTypeWithInitialInUpperCase = useMemo(
+    () => `${resourceList.resourceType.charAt(0).toUpperCase()}${resourceList.resourceType.slice(1)}`,
+    [resourceList.resourceType]
   )
 
   useEffect(() => {
@@ -60,8 +60,8 @@ export const ResourceOverview = () => {
       <ResourceCardGrid
         title={
           resourceList.searchInput
-            ? `Results with '${resourceList.searchInput}' in ${resourceIdWithInitialInUpperCase}`
-            : resourceIdWithInitialInUpperCase
+            ? `Results with '${resourceList.searchInput}' in ${resourceTypeWithInitialInUpperCase}`
+            : resourceTypeWithInitialInUpperCase
         }
         resourceList={acumulatedResourceList}
       />
