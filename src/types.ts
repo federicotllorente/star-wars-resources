@@ -22,12 +22,14 @@ export type ResourceSearchList = {
   [key: string]: ResourceList
 }
 
-export type Resource = unknown // TODO
-
 export type ResourceList = {
   count: number
   next: string | null
   previous: string | null
   resourceType: string
   results: Resource[]
+}
+
+export type Resource = {
+  [key: string]: string | string[] | number
 }

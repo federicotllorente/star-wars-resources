@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { Resource, ResourceList } from '../types'
-import { getResourceListFromCustomUrl } from '../helpers'
+import { getResourcesFromCustomUrl } from '../helpers'
 import { Layout } from '../components/Layout'
 import { ResourceCardGrid } from '../components/ResourceCardGrid'
 
@@ -35,7 +35,7 @@ export const ResourceOverview = () => {
     if (!nextPageUrl) return
     setIsNextPageLoading(true)
 
-    const results = await getResourceListFromCustomUrl(nextPageUrl)
+    const results = await getResourcesFromCustomUrl(nextPageUrl) as ResourceList
     setIsNextPageLoading(false)
     if (!results) {
       setNextPageUrl(null)

@@ -1,3 +1,5 @@
 export * from './localStorage'
 export * from './sessionStorage'
 export * from './getResources'
+export * from './getResourceDetailsPageUrlFromApiUrl'
+export * from './useResourceItemNameFromUrl'

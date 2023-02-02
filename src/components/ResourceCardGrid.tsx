@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react'
 import { Typography, Grid, useMediaQuery } from '@mui/material'
 import { Resource } from '../types'
+import { getResourceDetailsPageUrlFromApiUrl } from '../helpers'
 import { ResourceCard } from '../components/ResourceCard'
 
 type ResourceCardGridProps = {
@@ -29,9 +30,9 @@ export const ResourceCardGrid: FunctionComponent<ResourceCardGridProps> = ({
           paddingBottom: 4
         }}
       >
-        {resourceList.map((i: any) => (
+        {resourceList.map((i: Resource) => (
           <Grid
-            key={i.name || i.title}
+            key={(i.name || i.title) as string}
             item
             xs={isMobileOrLarger ? isTabletOrLarger ? 3 : 4 : 12}
             sx={{
@@ -39,9 +40,9 @@ export const ResourceCardGrid: FunctionComponent<ResourceCardGridProps> = ({
             }}
           >
             <ResourceCard
-              title={i.name || i.title}
+              title={(i.name || i.title) as string}
               description={'TODO Description'}
-              detailsPageUrl={'/'} // TODO
+              detailsPageUrl={getResourceDetailsPageUrlFromApiUrl(i.url as string)}
             />
           </Grid>
         ))}

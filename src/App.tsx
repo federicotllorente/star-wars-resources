@@ -4,7 +4,7 @@ import {
   redirect,
 } from 'react-router-dom'
 
-import { getResourceList, getResourceTypeList, getSignedInUserInSessionStorage, searchResource } from './helpers'
+import { getResource, getResourceList, getResourceTypeList, getSignedInUserInSessionStorage, searchResource } from './helpers'
 import { ResourceSearchList } from './types'
 
 import { Home } from './pages/Home'
@@ -12,6 +12,7 @@ import { ResourceOverview } from './pages/ResourceOverview'
 import { ResourceSearchOverview } from './pages/ResourceSearchOverview'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
+import { ResourceDetails } from './pages/ResourceDetails'
 
 const defaultLoader = async () => {
   const signedInUser = getSignedInUserInSessionStorage()
@@ -44,6 +45,19 @@ function App() {
         if (!resources) throw new Error
         
         return { ...resources, resourceType: params.resourceType }
+      }
+    },
+    {
+      path: 'resources/:resourceType/:resourceId',
+      element: <ResourceDetails />,
+      errorElement: <div>Error 404</div>,
+      loader: async ({ params }) => {
+        if (!params.resourceType || !params.resourceId) throw new Error
+        
+        const resource = await getResource(params.resourceType, params.resourceId)
+        if (!resource) throw new Error
+
+        return resource
       }
     },
     {

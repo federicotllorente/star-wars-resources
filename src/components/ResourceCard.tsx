@@ -10,8 +10,8 @@ import {
 
 type ResourceCardProps = {
   title: string
-  description: string
-  detailsPageUrl: string
+  description?: string
+  detailsPageUrl?: string
 }
 
 export const ResourceCard: FunctionComponent<ResourceCardProps> = ({
@@ -22,7 +22,7 @@ export const ResourceCard: FunctionComponent<ResourceCardProps> = ({
   const navigate = useNavigate()
 
   return (
-    <Card>
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <CardContent>
         {title && (
           <Typography gutterBottom variant="h5" component="div">
@@ -35,16 +35,16 @@ export const ResourceCard: FunctionComponent<ResourceCardProps> = ({
           </Typography>
         )}
       </CardContent>
-      <CardActions>
-        {detailsPageUrl && (
+      {detailsPageUrl && (
+        <CardActions>
           <Button
             size="small"
             onClick={() => navigate(detailsPageUrl)}
           >
             Learn More
           </Button>
-        )}
-      </CardActions>
+        </CardActions>
+      )}
     </Card>
   )
 }
