@@ -24,6 +24,19 @@ export const getResourceList = async (
   }
 }
 
+export const searchResource = async (
+  resourceType: string,
+  searchInput: string
+): Promise<ResourceList | undefined> => {
+  const res = await fetch(`https://swapi.dev/api/${resourceType}/?search=${searchInput}`)
+  try {
+    const data = await res.json()
+    return data
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const getResourceListFromCustomUrl = async (
   url: string
 ): Promise<ResourceList | undefined> => {

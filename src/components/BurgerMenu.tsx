@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { styled, alpha } from '@mui/material/styles'
@@ -24,15 +24,17 @@ import {
 } from '@mui/icons-material'
 
 import { AppBarProps, ResourceTypeList } from '../types'
-import { getResourceTypeList } from '../helpers'
+import { getResourceTypeList, searchResource } from '../helpers'
 
 export const BurgerMenu = () => {
+  const navigate = useNavigate()
   const isMobileOrLarger = useMediaQuery('(min-width:425px)')
   const isTabletOrLarger = useMediaQuery('(min-width:768px)')
+
   const [resources, setResources] = useState<ResourceTypeList | null | undefined>(null) // TODO Remove undefined
-  const [open, setOpen] = useState(isTabletOrLarger)
+  const [open, setOpen] = useState<boolean>(isTabletOrLarger)
+
   const toggleDrawer = () => setOpen(v => !v)
-  const navigate = useNavigate()
 
   useEffect(() => {
     getResourceTypeList().then(data => setResources(data)) // TODO Pass as props (use from loader function)
@@ -66,7 +68,7 @@ export const BurgerMenu = () => {
     justifyContent: 'flex-end',
   }))
 
-  const Search = styled('div')(({ theme }) => ({
+  const Search = styled('form')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -80,7 +82,7 @@ export const BurgerMenu = () => {
       width: 'auto',
     },
   }))
-  
+
   const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -89,7 +91,7 @@ export const BurgerMenu = () => {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  }))  
+  }))
 
   const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -108,7 +110,18 @@ export const BurgerMenu = () => {
         },
       },
     },
-  }))  
+  }))
+
+  const searchInputRef = useRef(null)
+
+  const handleSearchbarSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    // const results = await searchResource('people', (searchInputRef.current as any)?.children[0].value) // TODO
+    // console.log(results)
+
+    navigate(`/search/${encodeURI((searchInputRef.current as any)?.children[0].value)}`)
+  }
 
   if (!resources) return null
   return (
@@ -146,14 +159,18 @@ export const BurgerMenu = () => {
               </Link>
             </Typography>
           </Box>
-          <Search sx={{
-            ...(!isMobileOrLarger && { marginTop: 1, marginBottom: 2 }),
-            ...(isMobileOrLarger && !isTabletOrLarger && { marginLeft: 2 })
-          }}>
+          <Search
+            sx={{
+              ...(!isMobileOrLarger && { marginTop: 1, marginBottom: 2 }),
+              ...(isMobileOrLarger && !isTabletOrLarger && { marginLeft: 2 })
+            }}
+            onSubmit={handleSearchbarSubmit}
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              ref={searchInputRef}
               placeholder={isMobileOrLarger && !isTabletOrLarger ? 'Search...' : 'Search resources...'}
               inputProps={{ 'aria-label': 'search' }}
             />

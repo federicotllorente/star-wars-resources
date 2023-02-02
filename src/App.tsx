@@ -8,7 +8,8 @@ import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
 import { Home } from './pages/Home'
 import { ResourceOverview } from './pages/ResourceOverview'
-import { getResourceList, getResourceTypeList, getSignedInUserInSessionStorage } from './helpers'
+import { getResourceList, getResourceTypeList, getSignedInUserInSessionStorage, searchResource } from './helpers'
+import { Resource, ResourceList, ResourceTypeList } from './types'
 
 const defaultLoader = async () => {
   const signedInUser = getSignedInUserInSessionStorage()
@@ -41,6 +42,32 @@ function App() {
         if (!resources) throw new Error
         
         return { ...resources, resourceId: params.resourceId }
+      }
+    },
+    {
+      path: 'search/:searchInput',
+      element: <ResourceOverview />,
+      errorElement: <div>Error 404</div>,
+      loader: async ({ params }) => {
+        if (!params.searchInput) throw new Error
+        
+        const resourceTypes = await getResourceTypeList()
+        if (!resourceTypes) throw new Error
+
+        const totalResources: { [key: string]: ResourceList } = {}
+
+        for (let i = 0; i < Object.keys(resourceTypes).length; i++) {
+          const resourceType = Object.keys(resourceTypes)[i]
+
+          const resources = await searchResource(resourceType, params.searchInput ?? '')
+
+          if (resources?.results) {
+            totalResources[resourceType] = resources
+          }
+        }
+
+        console.log(totalResources)
+        return { ...totalResources.people, resourceId: 'people' }
       }
     },
     {

@@ -1,9 +1,10 @@
-import { useLoaderData } from 'react-router-dom'
-import { Typography, Button } from '@mui/material'
-import { Layout } from '../components/Layout'
-import { Resource, ResourceList } from '../types'
 import { useEffect, useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
+import { Button } from '@mui/material'
+import { Resource, ResourceList } from '../types'
 import { getResourceListFromCustomUrl } from '../helpers'
+import { Layout } from '../components/Layout'
+import { ResourceCardGrid } from '../components/ResourceCardGrid'
 
 export const ResourceOverview = () => {
   const resourceList = useLoaderData() as ResourceList
@@ -52,12 +53,10 @@ export const ResourceOverview = () => {
   if (!resourceList) return null
   return (
     <Layout>
-      <Typography component="h2" variant="h5">
-        {`${resourceList.resourceId.charAt(0).toUpperCase()}${resourceList.resourceId.slice(1)}`}
-      </Typography>
-      {acumulatedResourceList.map((i: any) => (
-        <p key={i.name}>{i.name}</p>
-      ))}
+      <ResourceCardGrid
+        title={`${resourceList.resourceId.charAt(0).toUpperCase()}${resourceList.resourceId.slice(1)}`}
+        resourceList={acumulatedResourceList}
+      />
       {isNextPageAvailable && (
         <Button variant="contained" onClick={handleLoadMore}>
           {/* TODO */}
