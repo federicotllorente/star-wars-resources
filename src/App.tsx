@@ -4,12 +4,14 @@ import {
   redirect,
 } from 'react-router-dom'
 
-import { SignIn } from './pages/SignIn'
-import { SignUp } from './pages/SignUp'
+import { getResourceList, getResourceTypeList, getSignedInUserInSessionStorage, searchResource } from './helpers'
+import { ResourceSearchList } from './types'
+
 import { Home } from './pages/Home'
 import { ResourceOverview } from './pages/ResourceOverview'
-import { getResourceList, getResourceTypeList, getSignedInUserInSessionStorage, searchResource } from './helpers'
-import { Resource, ResourceList, ResourceTypeList } from './types'
+import { ResourceSearchOverview } from './pages/ResourceSearchOverview'
+import { SignIn } from './pages/SignIn'
+import { SignUp } from './pages/SignUp'
 
 const defaultLoader = async () => {
   const signedInUser = getSignedInUserInSessionStorage()
@@ -46,7 +48,7 @@ function App() {
     },
     {
       path: 'search/:searchInput',
-      element: <ResourceOverview />,
+      element: <ResourceSearchOverview />,
       errorElement: <div>Error 404</div>,
       loader: async ({ params }) => {
         if (!params.searchInput) throw new Error
@@ -54,8 +56,7 @@ function App() {
         const resourceTypes = await getResourceTypeList()
         if (!resourceTypes) throw new Error
 
-        const totalResources: { [key: string]: ResourceList } = {}
-
+        const totalResources: ResourceSearchList = {}
         for (let i = 0; i < Object.keys(resourceTypes).length; i++) {
           const resourceType = Object.keys(resourceTypes)[i]
 
@@ -66,8 +67,20 @@ function App() {
           }
         }
 
-        console.log(totalResources)
-        return { ...totalResources.people, resourceId: 'people' }
+        return { ...totalResources, searchInput: params.searchInput }
+      }
+    },
+    {
+      path: 'search/:resourceId/:searchInput',
+      element: <ResourceOverview />,
+      errorElement: <div>Error 404</div>,
+      loader: async ({ params }) => {
+        if (!params.resourceId || !params.searchInput) throw new Error
+        
+        const resources = await searchResource(params.resourceId, params.searchInput ?? '')
+        if (!resources) throw new Error
+
+        return { ...resources, resourceId: params.resourceId, searchInput: params.searchInput }
       }
     },
     {

@@ -24,7 +24,7 @@ import {
 } from '@mui/icons-material'
 
 import { AppBarProps, ResourceTypeList } from '../types'
-import { getResourceTypeList, searchResource } from '../helpers'
+import { getResourceTypeList } from '../helpers'
 
 export const BurgerMenu = () => {
   const navigate = useNavigate()
@@ -116,10 +116,6 @@ export const BurgerMenu = () => {
 
   const handleSearchbarSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    // const results = await searchResource('people', (searchInputRef.current as any)?.children[0].value) // TODO
-    // console.log(results)
-
     navigate(`/search/${encodeURI((searchInputRef.current as any)?.children[0].value)}`)
   }
 

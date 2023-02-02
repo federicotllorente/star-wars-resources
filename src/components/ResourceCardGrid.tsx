@@ -15,6 +15,7 @@ export const ResourceCardGrid: FunctionComponent<ResourceCardGridProps> = ({
   const isMobileOrLarger = useMediaQuery('(min-width:425px)')
   const isTabletOrLarger = useMediaQuery('(min-width:768px)')
 
+  if (!resourceList) return null
   return (
     <>
       <Typography component="h2" variant="h5">
@@ -31,6 +32,7 @@ export const ResourceCardGrid: FunctionComponent<ResourceCardGridProps> = ({
         {resourceList.map((i: any) => (
           <Grid
             key={i.name || i.title}
+            item
             xs={isMobileOrLarger ? isTabletOrLarger ? 3 : 4 : 12}
             sx={{
               padding: 1

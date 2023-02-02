@@ -18,6 +18,10 @@ export type ResourceTypeList = {
   [key: string]: string
 }
 
+export type ResourceSearchList = {
+  [key: string]: ResourceList
+}
+
 export type Resource = unknown // TODO
 
 export type ResourceList = {
