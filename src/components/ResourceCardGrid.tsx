@@ -41,7 +41,6 @@ export const ResourceCardGrid: FunctionComponent<ResourceCardGridProps> = ({
           >
             <ResourceCard
               title={(i.name || i.title) as string}
-              description={'TODO Description'}
               detailsPageUrl={getResourceDetailsPageUrlFromApiUrl(i.url as string)}
             />
           </Grid>

@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'react'
-import { CircularProgress, Link } from '@mui/material'
+import { CircularProgress, Link, Typography } from '@mui/material'
 import { getResourceDetailsPageUrlFromApiUrl, useResourceItemNameFromUrl } from '../helpers'
 
 export const LinkForUrlResourceItem: FunctionComponent<{
@@ -17,12 +17,12 @@ export const LinkForUrlResourceItem: FunctionComponent<{
   if (isLoading) return <CircularProgress />
   if (!nameFromUrl) return null
   return (
-    <p>
+    <Typography component="span" variant="body1">
       <strong>{keyName}:</strong>
       {' '}
       <Link href={getResourceDetailsPageUrlFromApiUrl(url)}>
         {nameFromUrl}
       </Link>
-    </p>
+    </Typography>
   )
 }

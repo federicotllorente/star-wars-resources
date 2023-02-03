@@ -37,20 +37,20 @@ export const ResourceDetails = () => {
   if (!resource) return null
   return (
     <Layout>
-      <Box>
-        {resource.name || resource.title && (
-          <Typography component="h2" variant="h5">
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        {(resource.name || resource.title) && (
+          <Typography component="h2" variant="h5" sx={{ paddingBottom: 2 }}>
             {resource.name || resource.title}
           </Typography>
         )}
         {restResourceItems.length > 0 && restResourceItems.map(key => (
-          <p key={key}>
+          <Typography key={key} component="span" variant="body1">
             <strong>{`${key.charAt(0).toUpperCase()}${key.slice(1).split('_').join(' ')}`}:</strong>
             {' '}
             {resource[key] && (
               <span>{`${`${resource[key]}`.charAt(0).toUpperCase()}${`${resource[key]}`.slice(1)}`}</span>
             )}
-          </p>
+          </Typography>
         ))}
         {urlResourceItems.length > 0 && urlResourceItems.map(key => (
           <LinkForUrlResourceItem
@@ -63,15 +63,14 @@ export const ResourceDetails = () => {
           (resource[key] as string[]).length > 0
             ? (
               <Box key={key}>
-                <p>
+                <Typography component="span" variant="body1">
                   <strong>{`${key.charAt(0).toUpperCase()}${key.slice(1).split('_').join(' ')}`}:</strong>
-                </p>
+                </Typography>
                 <Grid
                   container
                   spacing={1}
                   sx={{
-                    paddingTop: 2,
-                    paddingBottom: 4
+                    paddingTop: 2
                   }}
                 >
                   {(resource[key] as string[]).map((url: string) => (

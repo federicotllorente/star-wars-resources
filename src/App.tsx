@@ -13,6 +13,7 @@ import { ResourceSearchOverview } from './pages/ResourceSearchOverview'
 import { SignIn } from './pages/SignIn'
 import { SignUp } from './pages/SignUp'
 import { ResourceDetails } from './pages/ResourceDetails'
+import { NotFound } from './pages/NotFound'
 
 const defaultLoader = async () => {
   const signedInUser = getSignedInUserInSessionStorage()
@@ -25,7 +26,7 @@ function App() {
     {
       path: '/',
       element: <Home />,
-      errorElement: <div>Error 404</div>,
+      errorElement: <NotFound />,
       loader: async () => {
         const signedInUser = getSignedInUserInSessionStorage()
         if (!signedInUser) throw redirect('/sign-in')
@@ -37,7 +38,7 @@ function App() {
     {
       path: 'resources/:resourceType',
       element: <ResourceOverview />,
-      errorElement: <div>Error 404</div>,
+      errorElement: <NotFound />,
       loader: async ({ params }) => {
         if (!params.resourceType) throw new Error
         
@@ -50,7 +51,7 @@ function App() {
     {
       path: 'resources/:resourceType/:resourceId',
       element: <ResourceDetails />,
-      errorElement: <div>Error 404</div>,
+      errorElement: <NotFound />,
       loader: async ({ params }) => {
         if (!params.resourceType || !params.resourceId) throw new Error
         
@@ -63,7 +64,7 @@ function App() {
     {
       path: 'search/:searchInput',
       element: <ResourceSearchOverview />,
-      errorElement: <div>Error 404</div>,
+      errorElement: <NotFound />,
       loader: async ({ params }) => {
         if (!params.searchInput) throw new Error
         
@@ -87,7 +88,7 @@ function App() {
     {
       path: 'search/:resourceType/:searchInput',
       element: <ResourceOverview />,
-      errorElement: <div>Error 404</div>,
+      errorElement: <NotFound />,
       loader: async ({ params }) => {
         if (!params.resourceType || !params.searchInput) throw new Error
         

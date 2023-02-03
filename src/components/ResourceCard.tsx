@@ -10,28 +10,29 @@ import {
 
 type ResourceCardProps = {
   title: string
-  description?: string
   detailsPageUrl?: string
 }
 
 export const ResourceCard: FunctionComponent<ResourceCardProps> = ({
   title,
-  description,
   detailsPageUrl
 }) => {
   const navigate = useNavigate()
 
   return (
-    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+    <Card
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundColor: 'rgba(0, 0, 0, 0.02)'
+      }}
+    >
       <CardContent>
         {title && (
           <Typography gutterBottom variant="h5" component="div">
             {title}
-          </Typography>
-        )}
-        {description && (
-          <Typography variant="body2" color="text.secondary">
-            {description}
           </Typography>
         )}
       </CardContent>
@@ -41,7 +42,7 @@ export const ResourceCard: FunctionComponent<ResourceCardProps> = ({
             size="small"
             onClick={() => navigate(detailsPageUrl)}
           >
-            Learn More
+            Read More
           </Button>
         </CardActions>
       )}
