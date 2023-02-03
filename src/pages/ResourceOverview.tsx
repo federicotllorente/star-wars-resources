@@ -76,7 +76,6 @@ export const ResourceOverview = () => {
           onClick={handleLoadMore}
           sx={{ width: 'fit-content' }}
         >
-          {/* TODO */}
           {isNextPageLoading ? 'Loading...' : 'Load more'}
         </Button>
       )}

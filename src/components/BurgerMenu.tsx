@@ -31,7 +31,7 @@ const BurgerMenuForMemo = () => {
   const isMobileOrLarger = useMediaQuery('(min-width:425px)')
   const isTabletOrLarger = useMediaQuery('(min-width:768px)')
 
-  const [resources, setResources] = useState<ResourceTypeList | null | undefined>(null) // TODO Remove undefined
+  const [resources, setResources] = useState<ResourceTypeList | null | undefined>(null)
   const [resourcesAreLoading, setResourcesAreLoading] = useState<boolean>(false)
   const [open, setOpen] = useState<boolean>(isTabletOrLarger)
 
@@ -42,7 +42,7 @@ const BurgerMenuForMemo = () => {
     getResourceTypeList().then(data => {
       setResources(data)
       setResourcesAreLoading(false)
-    }) // TODO Pass as props (use from loader function)
+    })
   }, [])
 
   const drawerWidth = isTabletOrLarger ? '180px' : '100vw'
