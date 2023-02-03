@@ -8,7 +8,7 @@ You can find information such as characters, starships, planets and so on in thi
 
 For practical purposes, the user authentication is 'simulated', in the mean that you can enter any email (with a valid format) and password in the Sign up form. That information will be stored in your browser local storage instead of a database.
 
-For signing in, the credentials need to be correct when you fill the form. For storing the session credentials, the browser session storage is being used in this case.
+For signing in, the credentials need to be correct when you fill the form (they need to 'exist', being the same ones as the ones you used in the Sign up form). For storing the session credentials, the browser session storage is being used in this case.
 
 ## Available Scripts
 
