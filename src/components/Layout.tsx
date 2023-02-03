@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode } from 'react'
+import { FunctionComponent, memo, ReactNode } from 'react'
 import {
   Container,
   Box,
@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { BurgerMenu } from '../components/BurgerMenu'
 
-export const Layout: FunctionComponent<{
+const LayoutForMemo: FunctionComponent<{
   children: ReactNode | ReactNode[]
 }> = ({
   children
@@ -34,3 +34,5 @@ export const Layout: FunctionComponent<{
     </Box>
   )
 }
+
+export const Layout = memo(LayoutForMemo)

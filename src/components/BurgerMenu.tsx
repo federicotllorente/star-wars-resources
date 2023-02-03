@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { styled, alpha } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import MuiAppBar from '@mui/material/AppBar'
 import {
   Typography,
@@ -15,19 +15,18 @@ import {
   ListItemButton,
   ListItemText,
   useMediaQuery,
-  InputBase,
   CircularProgress
 } from '@mui/material'
 import {
   Menu as MenuIcon,
-  ChevronLeft as ChevronLeftIcon,
-  Search as SearchIcon
+  ChevronLeft as ChevronLeftIcon
 } from '@mui/icons-material'
 
 import { AppBarProps, ResourceTypeList } from '../types'
 import { getResourceTypeList } from '../helpers'
+import { SearchBar } from './SearchBar'
 
-export const BurgerMenu = () => {
+const BurgerMenuForMemo = () => {
   const navigate = useNavigate()
   const isMobileOrLarger = useMediaQuery('(min-width:425px)')
   const isTabletOrLarger = useMediaQuery('(min-width:768px)')
@@ -74,57 +73,6 @@ export const BurgerMenu = () => {
     justifyContent: 'flex-end',
   }))
 
-  const Search = styled('form')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto',
-    },
-  }))
-
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }))
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('sm')]: {
-        // width: '12ch',
-        width: '20ch',
-        '&:focus': {
-          // width: '20ch',
-          width: '28ch',
-        },
-      },
-    },
-  }))
-
-  const searchInputRef = useRef(null)
-
-  const handleSearchbarSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    navigate(`/search/${encodeURI((searchInputRef.current as any)?.children[0].value)}`)
-  }
-
   if (resourcesAreLoading) return <CircularProgress />
   if (!resources) return null
   return (
@@ -162,22 +110,7 @@ export const BurgerMenu = () => {
               </Link>
             </Typography>
           </Box>
-          <Search
-            sx={{
-              ...(!isMobileOrLarger && { marginTop: 1, marginBottom: 2 }),
-              ...(isMobileOrLarger && !isTabletOrLarger && { marginLeft: 2 })
-            }}
-            onSubmit={handleSearchbarSubmit}
-          >
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              ref={searchInputRef}
-              placeholder={isMobileOrLarger && !isTabletOrLarger ? 'Search...' : 'Search resources...'}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
+          <SearchBar />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -213,3 +146,5 @@ export const BurgerMenu = () => {
     </>
   )
 }
+
+export const BurgerMenu = memo(BurgerMenuForMemo)
